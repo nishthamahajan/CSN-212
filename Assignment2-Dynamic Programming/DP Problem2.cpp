@@ -23,14 +23,15 @@ int possible_paths (int width, int height, path* blocked, int nb)
     {
         for (int j=width; j>=0; j--)
         {
-            if ( NB({i,j,i+1, j}, blocked, nb) && NB({i,j,i,j+1}, blocked, nb) && i<height && j<width)
+            if (i==height && j==width) tab[i][j]=0;
+            else if ((i==height-1 && NB({j,i,j+1, i}, blocked, nb)) || (j==width-1 && NB({j,i,j,i+1}, blocked, nb)))
+                tab[i][j]=1;
+            else if ( NB({j,i,j+1, i}, blocked, nb) && NB({j,i,j,i+1}, blocked, nb) )
                 tab[i][j]=tab[i+1][j]+tab[i][j+1];
-            else if ( NB({i,j,i+1, j}, blocked, nb) && i<height )
+            else if ( NB({j,i,j+1, i}, blocked, nb) )
                 tab[i][j]=tab[i+1][j];
-            else if ( NB({i,j,i,j+1}, blocked, nb) && j<width )
+            else if ( NB({j,i,j,i+1}, blocked, nb) )
                 tab[i][j]=tab[i][j+1];
-            else if ( NB({i,j,i+1, j}, blocked, nb) && j==width )
-                tab[i][j]=tab[i+1][j];
             else tab[i][j]=0;
         };
     };
